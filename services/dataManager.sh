@@ -45,8 +45,7 @@ makeTemplate() {
     do
         local DATE_STRING=${date//[@]/"-"}
         echo "${DATE_STRING//[__]/''} :"
-        echo "${CONTENT_BY_TYPE[$date]//[@]/$'\n\n'}"
-        echo ""
+        echo "${CONTENT_BY_TYPE[$date]//[@]/$'\n'}"
         echo "--------------"
     done
     echo "total: ${CONTENT_COUNT}"
