@@ -5,27 +5,23 @@
 ########################################################################################
 readNote() {
     local PATTERN="$1"
-    if [ "$PATTERN" = "--now" ]
+    if [ "$PATTERN" = "--today" ]
     then
-        IFS="@"
-        local DATE=$(getActualDate)
-        read -a EXPLODED_ACTUAL_DATE <<< "$DATE"
-        echo "${EXPLODED_ACTUAL_DATE}"
-        exit
-        
+        #TODO...
+        echo "todo.."
     fi
 
-    local REGISTERS=$(grep "${PATTERN//[-]/'\-'}" $DATABASE_FILE)
-    if [ -z "$REGISTERS" ]
+    local HAS_REGISTERS
+    while read register; do
+        HAS_REGISTERS=1
+        getContent "$register"
+    done < <(grep "${PATTERN//[-]/'\-'}" $DATABASE_FILE)
+    
+    if [ -z "$HAS_REGISTERS" ]
     then
         echo "Empty registers"
         exit
     fi
-
-    for i in "$REGISTERS";
-    do
-        getContent "$i"
-    done
 
     makeTemplate
 }
